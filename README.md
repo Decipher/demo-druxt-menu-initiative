@@ -1,6 +1,6 @@
 # Drupal Menu Initiative DruxtJS presentation.
 
-## 1. Drupal 9 backend - Quickstart.
+## Drupal 9 - Quickstart.
 
 1. Ceate Drupal 9 codebase:
 
@@ -23,7 +23,7 @@
     http://127.0.0.1:8888/en/admin/people/permissions
 
 
-## 2. NuxtJS frontend.
+## NuxtJS.
 
 1. Create Nuxt codebase:
 
@@ -50,6 +50,67 @@
     },
     ```
 
+4. Add `<DruxtMenu name="main" />` to `pages/index.vue`.
+
+
+## Example 1 - Props and Slots.
+
+Main menu, single level, using `b-nav>b-nav-item` structure.
+
+### Properties.
+
+API Docs: https://menu.druxtjs.org/api/components/DruxtMenu.html#props
+
+```
+<DruxtMenu
+  depth="1"
+  item-component="b-nav-item"
+  name="main"
+/>
+```
+
+### Wrapper.
+
+API Docs: https://druxtjs.org/guide/#druxtcomponentmixin-component-system
+
+`DruxtMenuMain.vue`
+```
+<template>
+  <b-nav>
+    <slot />
+  </b-nav>
+</template>
+```
+
+## Example 2 - Props and templates.
+
+Main menu, multi level, using `b-nav>b-nav-item-dropdown>b-nav-item` and templates.
+
+### Templates.
+
+@TODO - https://github.com/druxt/druxt-menu/issues/38
+
+```
+<DruxtMenu name="main">
+  <template #item="{ item: { entity } }">
+    <b-nav-item :to="entity.attributes.link.uri.replace('internal:/', '')">
+      {{ entity.attributes.title }}
+    </b-nav-item>
+  </template>
+
+  <template #parent="{ item: { children, entity } }">
+    <b-nav-item-dropdown :text="entity.attributes.title">
+      <DruxtMenuItem :item="{ entity, children: [] }" />
+
+      <DruxtMenuItem
+        v-for="item of children"
+        :key="item.entity.id"
+        :item="item"
+      />
+    </b-nav-item-dropdown>
+  </template>
+</DruxtMenu>
+```
 
 ## Misc
 
