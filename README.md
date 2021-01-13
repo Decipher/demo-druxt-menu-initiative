@@ -57,10 +57,6 @@
 
 Main menu, single level, using `b-nav>b-nav-item` structure.
 
-### Properties.
-
-API Docs: https://menu.druxtjs.org/api/components/DruxtMenu.html#props
-
 ```
 <DruxtMenu
   depth="1"
@@ -68,10 +64,6 @@ API Docs: https://menu.druxtjs.org/api/components/DruxtMenu.html#props
   name="main"
 />
 ```
-
-### Wrapper.
-
-API Docs: https://druxtjs.org/guide/#druxtcomponentmixin-component-system
 
 `DruxtMenuMain.vue`
 ```
@@ -82,13 +74,9 @@ API Docs: https://druxtjs.org/guide/#druxtcomponentmixin-component-system
 </template>
 ```
 
-## Example 2 - Props and templates.
+## Example 2 - Templates.
 
-Main menu, multi level, using `b-nav>b-nav-item-dropdown>b-nav-item` and templates.
-
-### Templates.
-
-@TODO - https://github.com/druxt/druxt-menu/issues/38
+Main menu, multi level, using `b-nav>b-nav-item-dropdown>b-nav-item` via slot templates.
 
 ```
 <DruxtMenu name="main">
@@ -111,6 +99,70 @@ Main menu, multi level, using `b-nav>b-nav-item-dropdown>b-nav-item` and templat
   </template>
 </DruxtMenu>
 ```
+
+`DruxtMenuMain.vue`
+```
+<template>
+  <b-nav>
+    <slot />
+  </b-nav>
+</template>
+```
+
+## Example 3 - Slotless wrapper.
+
+Main menu, 2 levels, using `b-nav>b-nav-item-dropdown>b-nav-item` via custom slotless wrapper component.
+
+```
+<DruxtMenu name="main" />
+```
+
+```
+<template>
+  <b-nav>
+    <component
+      v-for="item of items"
+      :key="item.entity.id"
+      :is="!!item.children.length ? 'b-nav-item-dropdown' : 'b-nav-item'"
+      v-bind="propsData(item.entity, !!item.children.length)"
+    >
+      <span v-if="!item.children.length">{{ item.entity.attributes.title }}</span>
+
+      <span v-else>
+        <b-nav-item
+          v-for="child of item.children"
+          :key="child.entity.id"
+          v-bind="propsData(child.entity, false)"
+        >
+          <span>{{ child.entity.attributes.title }}</span>
+        </b-nav-item>
+      </span>
+    </component>
+  </b-nav>
+</template>
+
+<script>
+import { DruxtMenuMixin } from 'druxt-menu'
+
+export default {
+  mixins: [DruxtMenuMixin],
+
+  methods: {
+    propsData(entity, hasChildren) {
+      if (hasChildren) {
+        return {
+          text: entity.attributes.title
+        }
+      }
+      return {
+        to: entity.attributes.link.uri.replace('internal:', '')
+      }
+    }
+  }
+}
+</script>
+```
+
 
 ## Misc
 
