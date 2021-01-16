@@ -34,48 +34,36 @@
         <hr class="my-4" />
 
         <VueLive :code="Example1" :layout="Layout" />
-
-        <!-- <b-card class="my-4">
-          <VueLivePreview :code="Example1" />
-        </b-card>
-
-        <b-card no-body>
-          <VueLiveEditor :code="Example1" />
-        </b-card> -->
       </b-col>
     </b-row>
 
-    <!-- <b-row class="my-5">
+    <b-row class="my-5">
       <b-col>
         <h3>Example 2 - Templates.</h3>
         <hr class="my-4" />
 
-        <b-card class="my-4">
-          <VueLivePreview :code="example2" />
-        </b-card>
-
-        <b-card no-body>
-          <VueLiveEditor :code="example2" />
-        </b-card>
+        <VueLive :code="Example2" :layout="Layout" />
       </b-col>
-    </b-row> -->
+    </b-row>
   </b-container>
 </template>
 
 <script>
-import { VueLive, VueLiveEditor, VueLivePreview } from 'vue-live'
+import { VueLive } from 'vue-live'
 import Layout from '~/components/Layout.vue'
 
 import 'prismjs/themes/prism-tomorrow.css'
 import 'vue-prism-editor/dist/prismeditor.min.css'
 
 import Example1 from '!!raw-loader!~/assets/Example1.vue'
+import Example2 from '!!raw-loader!~/assets/Example2.vue'
 
 export default {
-  components: { VueLive, VueLiveEditor, VueLivePreview },
+  components: { VueLive },
 
   data: () => ({
     Example1,
+    Example2,
     Layout
   })
 }
