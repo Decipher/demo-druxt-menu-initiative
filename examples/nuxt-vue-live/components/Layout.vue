@@ -4,8 +4,6 @@
       <slot name="preview" />
     </b-card>
 
-    <b-card no-body>
-      <slot name="editor" />
-    </b-card>
+    <slot name="editor" />
   </div>
 </template>

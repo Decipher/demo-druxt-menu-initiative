@@ -33,7 +33,11 @@
         <h3>Example 1 - Props and Slots.</h3>
         <hr class="my-4" />
 
-        <VueLive :code="Example1" :layout="Layout" />
+        <p>
+          Main menu, single level, using <code>b-nav > b-nav-item</code> structure.
+        </p>
+
+        <VueLive :code="examples[0]" :layout="Layout" />
       </b-col>
     </b-row>
 
@@ -42,7 +46,12 @@
         <h3>Example 2 - Templates.</h3>
         <hr class="my-4" />
 
-        <VueLive :code="Example2" :layout="Layout" />
+        <p>
+          Main menu, multi level, using <code>b-nav > b-nav-item-dropdown > b-nav-item</code> via slot templates.
+        </p>
+
+
+        <VueLive :code="examples[1]" :layout="Layout" />
       </b-col>
     </b-row>
   </b-container>
@@ -62,8 +71,10 @@ export default {
   components: { VueLive },
 
   data: () => ({
-    Example1,
-    Example2,
+    examples: [
+      Example1,
+      Example2
+    ],
     Layout
   })
 }
@@ -107,7 +118,7 @@ export default {
 }
 
 .prism-editor-wrapper {
-  /* background-color: #222; */
+  background-color: #222;
   box-sizing: border-box;
   color: #eee;
   height: auto;
