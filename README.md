@@ -241,6 +241,8 @@ export default {
 
 ## Example 6 - Node app
 
+Sandbox: https://codesandbox.io/s/github/Decipher/druxt-menu-initiative/tree/master/examples/node-basic
+
 Custom node app, no Vue/React/Framework.
 
 1. Create codebase:
