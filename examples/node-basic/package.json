@@ -1,0 +1,14 @@
+{
+  "name": "druxt-menu-example-node-basic",
+  "version": "1.0.0",
+  "description": "An example of a Node app using the DruxtMenu module.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "druxt-menu": "^0.7.0"
+  }
+}
