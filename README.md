@@ -57,6 +57,8 @@
 
 Main menu, single level, using `b-nav>b-nav-item` structure.
 
+This method allows customisation of the props used by the default templates of the module component.
+
 ```
 <DruxtMenu
   depth="1"
@@ -65,7 +67,7 @@ Main menu, single level, using `b-nav>b-nav-item` structure.
 />
 ```
 
-`DruxtMenuMain.vue`
+`global/DruxtMenuMain.vue`
 ```
 <template>
   <b-nav>
@@ -78,10 +80,12 @@ Main menu, single level, using `b-nav>b-nav-item` structure.
 
 Main menu, multi level, using `b-nav>b-nav-item-dropdown>b-nav-item` via slot templates.
 
+This method allows customisation of templates used by the module component.
+
 ```
 <DruxtMenu name="main">
   <template #item="{ item: { entity } }">
-    <b-nav-item :to="entity.attributes.link.uri.replace('internal:/', '')">
+    <b-nav-item :to="entity.attributes.link.uri.replace('internal:', '')">
       {{ entity.attributes.title }}
     </b-nav-item>
   </template>
@@ -100,7 +104,7 @@ Main menu, multi level, using `b-nav>b-nav-item-dropdown>b-nav-item` via slot te
 </DruxtMenu>
 ```
 
-`DruxtMenuMain.vue`
+`global/DruxtMenuMain.vue`
 ```
 <template>
   <b-nav>
@@ -113,10 +117,13 @@ Main menu, multi level, using `b-nav>b-nav-item-dropdown>b-nav-item` via slot te
 
 Main menu, 2 levels, using `b-nav>b-nav-item-dropdown>b-nav-item` via custom slotless wrapper component.
 
+This method allows full control using data made available by the module component.
+
 ```
 <DruxtMenu name="main" />
 ```
 
+`global/DruxtMenuMain.vue`
 ```
 <template>
   <b-nav>
@@ -163,6 +170,111 @@ export default {
 </script>
 ```
 
+## Example 4 - Extend component.
+
+Custom component, extending DruxtMenu, rendering raw menu data.
+
+This method allows full override of the module component.
+
+```
+<Menu />
+```
+
+`Menu.vue`
+```
+<template>
+  <div>{{ getMenuItems() }}</div>
+</template>
+
+<script>
+import { DruxtMenuComponent } from 'druxt-menu'
+
+export default {
+  extends: DruxtMenuComponent
+}
+</script>
+```
+
+## Example 5 - Nuxt plugin.
+
+Custom component, using DruxtMenu plugin, rendering raw menu data using both communication methods.
+
+This method allows full control without using the DruxtMenu component methods or Vuex store.
+
+
+```
+<Menu />
+```
+
+`Menu.vue`
+```
+<template>
+  <div v-if="!$fetchState.pending">
+    <div>
+      <strong>/jsonapi/menu_link_content--menu_link_content/{{ menuName }}</strong>
+      {{ menuLinkContent }}
+    </div>
+
+    <div>
+      <strong>/jsonapi/menu_items/{{ menuName }}</strong>
+      {{ jsonApiMenuItems }}
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data: () => ({
+    menuName: 'main',
+    menuLinkContent: null,
+    jsonApiMenuItems: null
+  }),
+
+  async fetch() {
+    this.menuLinkContent = await this.$druxtMenu.getMenuLinkContent(this.menuName)
+    this.jsonApiMenuItems = await this.$druxtMenu.getJsonApiMenuItems(this.menuName)
+  }
+}
+</script>
+```
+
+
+## Example 6 - Node app
+
+Custom node app, no Vue/React/Framework.
+
+1. Create codebase:
+
+    `mkdir node && cd $_ && npm init -y && touch index.js`
+
+2. Add [Druxt Menu](https://menu.druxtjs.org) module:
+
+    `npm i druxt-menu`
+
+3. Add `index.js`:
+
+    ```
+    const DruxtMenuClass = require('druxt-menu').DruxtMenu
+
+    const baseUrl = 'https://demo-api.druxtjs.org/'
+    const menuName = 'main'
+
+    const DruxtMenu = new DruxtMenuClass(baseUrl)
+    DruxtMenu.getJsonApiMenuItems(menuName).then((res) => {
+      for (const item of res.entities) {
+        console.log(item)
+      }
+    })
+    ```
+
+  4. Run:
+
+     `node index.js`
+
+## Issues
+
+- Active menu items: https://github.com/druxt/druxt-menu/issues/40
+- External links: https://github.com/druxt/druxt-menu/issues/41
 
 ## Misc
 
