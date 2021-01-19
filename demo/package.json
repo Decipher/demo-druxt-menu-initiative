@@ -1,0 +1,21 @@
+{
+  "name": "druxt-menu-initiative-demo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxt/content": "^1.11.1",
+    "@nuxtjs/pwa": "^3.3.4",
+    "bootstrap": "^4.5.3",
+    "bootstrap-vue": "^2.21.2",
+    "core-js": "^3.8.2",
+    "druxt-menu": "^0.7.0",
+    "nuxt": "^2.14.12"
+  },
+  "devDependencies": {}
+}
